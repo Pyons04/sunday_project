@@ -1,0 +1,13 @@
+{% block contents %}
+<div class = "container">
+  <div class="row">
+    <form methods="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table class="table">
+        {{form.as_table}}
+      </table>
+    </form>
+  </div>
+
+</div>
+{% endblock %}
