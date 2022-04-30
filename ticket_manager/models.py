@@ -1,7 +1,7 @@
 from django.db import models
 
 class Ticket(models.Model):
-  created_date = models.DateField()
+  created_date = models.DateTimeField(auto_now = True)
   title = models.CharField(max_length = 200)
   description = models.CharField(max_length = 500)
 
