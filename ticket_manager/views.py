@@ -26,11 +26,11 @@ class CreateTicketView(generic.CreateView):
     logger = logging.getLogger('development')
     logger.info('登録中')
     
-    Ticket.objects.create(
-      created_date=created_date,
-      title=title,
-      description=description,
-    )
+    #Ticket.objects.create(
+    #  created_date=created_date,
+    #  title=title,
+    #  description=description,
+    #)
     
     messages.success(self.request, "登録完了")
     
