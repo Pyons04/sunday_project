@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Ticket
 from .forms  import TicketCreateForm
+import logging
 import datetime
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 class TicketView(generic.ListView):
   model = Ticket
