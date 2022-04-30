@@ -1,8 +1,9 @@
 <p1>HelloWorld</p1>
-{% block contents %}
-
-{% for ticket in ticket_list %}
-  {{ ticket.title }}<br/>
-{% endfor %}
-
-{% endblock %}
+<ul>
+  {% for item in object_list %}
+  <li>{{ item.title }}</li>
+  {% endfor %}
+</ul>
+<div>
+  <a href="{% url 'create' %}">create</a>
+</div>
