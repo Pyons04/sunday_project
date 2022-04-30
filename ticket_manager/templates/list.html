@@ -1,1 +1,8 @@
 <p1>HelloWorld</p1>
+{% block contents %}
+
+{% for ticket in ticket_list %}
+  {{ ticket.title }}<br/>
+{% endfor %}
+
+{% endblock %}
