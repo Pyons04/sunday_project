@@ -1,11 +1,28 @@
+from re import template
 from django.shortcuts import render
 from django.views import generic
-from .models import Ticket
-from .forms  import TicketCreateForm
+from .models import Status, Ticket
+from .forms  import StatusCreateForm, TicketCreateForm
 import logging
 import datetime
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+class CreateStatusView(generic.CreateView):
+  model = Status
+  template_name = 'create_status.html'
+
+  form_class = StatusCreateForm
+  success_url = reverse_lazy('list')
+
+  def form_valid(self, form):
+    #status = form.cleaned_data['status']
+    #order = form.cleaned_data['order']
+    
+    logger = logging.getLogger('development')
+    logger.info('登録中')
+    
+    return super().form_valid(form)
 
 class TicketView(generic.ListView):
   model = Ticket
@@ -31,8 +48,6 @@ class CreateTicketView(generic.CreateView):
     #  title=title,
     #  description=description,
     #)
-    
-    messages.success(self.request, "登録完了")
     
     return super().form_valid(form)
   
