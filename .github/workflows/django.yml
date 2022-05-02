@@ -28,3 +28,10 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Send Notification
+      uses: rtCamp/action-slack-notify@v2.0.0
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_COLOR: '#5cb85c'
+        SLACK_TITLE: 'Passed CI on GitHub Actions :rocket:'
+        
