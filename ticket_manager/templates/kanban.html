@@ -1,0 +1,14 @@
+<p1>HelloWorld</p1>
+<ul>
+  {% for item in object_list %}
+  <li>Status: {{ item.status }} (No. {{ item.order }})</li>
+  <ul>
+    {% for ticket in item.ticket_set.all %}
+       <li> {{ ticket.title }}</li>
+    {% endfor %}
+  </ul> 
+    {% endfor %}
+  </ul>
+<div>
+  <a href="{% url 'create' %}">create</a>
+</div>

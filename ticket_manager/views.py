@@ -8,6 +8,14 @@ import datetime
 from django.urls import reverse_lazy
 from django.contrib import messages
 
+class KanbanView(generic.ListView):
+  model = Status
+  template_name = 'kanban.html'
+
+  def get_queryset(self):
+      return Status.objects.order_by('order')
+  
+
 class CreateStatusView(generic.CreateView):
   model = Status
   template_name = 'create_status.html'
