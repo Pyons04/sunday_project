@@ -53,4 +53,7 @@ class CreateTicketView(generic.CreateView):
 
 class UpdateTicketView(generic.UpdateView):
   model = Ticket
+  fields = ['status']
+  template_name = 'ticket_update_form.html'
+  success_url = reverse_lazy('kanban')
 
