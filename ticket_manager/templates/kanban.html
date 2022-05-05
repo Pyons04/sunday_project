@@ -1,10 +1,24 @@
-<p1>HelloWorld</p1>
+<p1>Kanban Bord</p1>
 <ul>
   {% for item in object_list %}
-  <li>Status: {{ item.status }} (No. {{ item.order }})</li>
+  <li>{{ item.status }} (order: {{ item.order }})</li>
   <ul>
     {% for ticket in item.ticket_set.all %}
-       <li> {{ ticket.title }}</li>
+       <li> {{ ticket.title }} | 
+        <form method="post" id="status" action="{% url 'ticket_update' ticket.id %}">
+        <select name="status">
+          {% for status in object_list %}
+            {% if ticket.status == status %}
+              <option selected value="{{ status.id }}"> {{ status }} </option>
+            {% else %}
+              <option value="{{ status.id }}"> {{ status }} </option>
+            {% endif %}
+          {% endfor %}            
+        </select> | 
+          {% csrf_token %}
+          <input type="submit" value="Modify">
+        </form>
+      </li>
     {% endfor %}
   </ul> 
   {% endfor %}
