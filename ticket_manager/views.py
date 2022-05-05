@@ -57,3 +57,7 @@ class UpdateTicketView(generic.UpdateView):
   template_name = 'ticket_update_form.html'
   success_url = reverse_lazy('kanban')
 
+  def form_valid(self, form):    
+    return super().form_valid(form)
+
+
