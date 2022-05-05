@@ -1,4 +1,4 @@
-<p1>HelloWorld</p1>
+<p1>Kanban Bord</p1>
 <ul>
   {% for item in object_list %}
   <li>{{ item.status }} (order: {{ item.order }})</li>
@@ -8,7 +8,11 @@
         <form method="post" id="status" action="{% url 'ticket_update' ticket.id %}">
         <select name="status">
           {% for status in object_list %}
-            <option value="{{ status.id }}"> {{ status }} </option>
+            {% if ticket.status == status %}
+              <option selected value="{{ status.id }}"> {{ status }} </option>
+            {% else %}
+              <option value="{{ status.id }}"> {{ status }} </option>
+            {% endif %}
           {% endfor %}            
         </select> | 
           {% csrf_token %}
