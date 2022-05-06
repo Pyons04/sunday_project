@@ -1,8 +1,8 @@
 from re import template
 from django.shortcuts import render
 from django.views import generic
-from .models import Status, Ticket
-from .forms  import StatusCreateForm, TicketCreateForm
+from .models import Status, Ticket, Category
+from .forms  import StatusCreateForm, TicketCreateForm, TicketUpdateForm
 import logging
 import datetime
 from django.urls import reverse_lazy
@@ -51,7 +51,7 @@ class CreateTicketView(generic.CreateView):
     messages.error(self.request, "登録失敗")
     return super().form_invalid(form)
 
-class UpdateTicketView(generic.UpdateView):
+class UpdateStatusTicketView(generic.UpdateView):
   model = Ticket
   fields = ['status']
   template_name = 'ticket_update_form.html'
@@ -60,4 +60,19 @@ class UpdateTicketView(generic.UpdateView):
   def form_valid(self, form):    
     return super().form_valid(form)
 
+class TicketDetailView(generic.DetailView):
+  model = Ticket
+  template_name = 'detail.html'
 
+class UpdateTicketView(generic.UpdateView):
+  model = Ticket
+  template_name = 'update.html'
+  form_class = TicketUpdateForm
+  success_url = reverse_lazy('list')
+
+  def form_valid(self, form):    
+    return super().form_valid(form)
+
+  def form_invalid(self, form):
+    messages.error(self.request, "更新失敗")
+    return super().form_invalid(form)

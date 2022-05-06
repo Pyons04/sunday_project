@@ -1,0 +1,12 @@
+<ul>タイトル：{{object.title}}</ul>
+<ul>作成日：{{object.created_date}}</ul>
+<ul>分類：{{object.category}}</ul>
+<ul>説明：{{object.description}}</ul>
+<ul>ステータス：{{object.status}}</ul>
+<ul>終了予定日：{{object.deadlinedate}}</ul>
+<ul>最終更新日：{{object.lastupdatedate}}</ul>
+
+<div>
+    <a href="{% url 'update' object.id %}" button>更新</a>
+    <a href="{% url 'list' %}" button>一覧</a>
+</div>

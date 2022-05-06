@@ -1,7 +1,7 @@
 <p1>チケット一覧</p1>
 <ul>
   {% for item in object_list %}
-  <li>{{ item.title }} Status: {{item.status}}</li>
+  <li><a href="{% url 'detail' item.id %}">{{ item.title }}</a> Status: {{item.status}}</li>
   {% endfor %}
 </ul>
 <div>
