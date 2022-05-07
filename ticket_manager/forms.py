@@ -14,6 +14,16 @@ class TicketCreateForm(forms.ModelForm):
     for field in self.fields.values():
       field.widget.attrs['class'] = 'form-control'
 
+class TicketUpdateForm(forms.ModelForm):
+  class Meta:
+    model = Ticket
+    fields = ('title', 'description','status', 'deadlinedate')
+
+  def __init__(self, *args, **kwargs):
+    super().__init__( *args, **kwargs)
+    for field in self.fields.values():
+      field.widget.attrs['class'] = 'form-control'
+
 class StatusCreateForm(forms.ModelForm):
   class Meta:
     model = Status

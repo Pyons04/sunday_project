@@ -1,12 +1,11 @@
 from re import template
 from django.shortcuts import render
 from django.views import generic
-from .models import Status, Ticket
+from .models import Status, Ticket, Category
 from .forms  import StatusCreateForm, TicketCreateForm, LoginForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-# from .forms import LoginForm # 追加
-
+from .forms  import StatusCreateForm, TicketCreateForm, TicketUpdateForm
 import logging
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -53,7 +52,7 @@ class CreateTicketView(LoginRequiredMixin, generic.CreateView):
     messages.error(self.request, "登録失敗")
     return super().form_invalid(form)
 
-class UpdateTicketView(LoginRequiredMixin, generic.UpdateView):
+class UpdateStatusTicketView(generic.UpdateView):
   model = Ticket
   fields = ['status']
   template_name = 'ticket_update_form.html'
@@ -70,4 +69,19 @@ class Login(LoginView):
 class Logout(LogoutView):
     template_name = 'logout.html'
 
+class TicketDetailView(generic.DetailView):
+  model = Ticket
+  template_name = 'detail.html'
 
+class UpdateTicketView(generic.UpdateView):
+  model = Ticket
+  template_name = 'update.html'
+  form_class = TicketUpdateForm
+  success_url = reverse_lazy('list')
+
+  def form_valid(self, form):    
+    return super().form_valid(form)
+
+  def form_invalid(self, form):
+    messages.error(self.request, "更新失敗")
+    return super().form_invalid(form)
