@@ -2,6 +2,7 @@ from dataclasses import fields
 from importlib.metadata import files
 from django import forms
 from .models import Status, Ticket
+from django.contrib.auth.forms import AuthenticationForm
 
 class TicketCreateForm(forms.ModelForm):
   class Meta:
@@ -32,3 +33,12 @@ class StatusCreateForm(forms.ModelForm):
     super().__init__( *args, **kwargs)
     for field in self.fields.values():
       field.widget.attrs['class'] = 'form-control'
+
+class LoginForm(AuthenticationForm):
+
+    # bootstrap4対応
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label  # placeholderにフィールドのラベルを入れる
