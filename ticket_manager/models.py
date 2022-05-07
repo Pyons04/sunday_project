@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class Status(models.Model):
   created_date = models.DateTimeField(auto_now = True)
@@ -13,5 +14,8 @@ class Ticket(models.Model):
   title = models.CharField(max_length = 200)
   description = models.CharField(max_length = 500)
   status = models.ForeignKey(Status, verbose_name="ステータス", on_delete=models.PROTECT, null = True)
+
+class User(AbstractUser):
+  pass
 
 # Create your models here.

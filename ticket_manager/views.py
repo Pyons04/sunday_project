@@ -2,21 +2,23 @@ from re import template
 from django.shortcuts import render
 from django.views import generic
 from .models import Status, Ticket
-from .forms  import StatusCreateForm, TicketCreateForm
+from .forms  import StatusCreateForm, TicketCreateForm, LoginForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+# from .forms import LoginForm # 追加
+
 import logging
-import datetime
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-class KanbanView(generic.ListView):
+class KanbanView(LoginRequiredMixin, generic.ListView):
   model = Status
   template_name = 'kanban.html'
 
   def get_queryset(self):
       return Status.objects.order_by('order')
-  
 
-class CreateStatusView(generic.CreateView):
+class CreateStatusView(LoginRequiredMixin, generic.CreateView):
   model = Status
   template_name = 'create_status.html'
 
@@ -30,11 +32,11 @@ class CreateStatusView(generic.CreateView):
     
     return super().form_valid(form)
 
-class TicketView(generic.ListView):
+class TicketView(LoginRequiredMixin, generic.ListView):
   model = Ticket
   template_name = 'list.html'
 
-class CreateTicketView(generic.CreateView):
+class CreateTicketView(LoginRequiredMixin, generic.CreateView):
   model = Ticket
   template_name = 'create.html'
 
@@ -51,7 +53,7 @@ class CreateTicketView(generic.CreateView):
     messages.error(self.request, "登録失敗")
     return super().form_invalid(form)
 
-class UpdateTicketView(generic.UpdateView):
+class UpdateTicketView(LoginRequiredMixin, generic.UpdateView):
   model = Ticket
   fields = ['status']
   template_name = 'ticket_update_form.html'
@@ -59,5 +61,13 @@ class UpdateTicketView(generic.UpdateView):
 
   def form_valid(self, form):    
     return super().form_valid(form)
+
+class Login(LoginView):
+    form_class = LoginForm
+    template_name = 'login.html'
+    success_url = reverse_lazy('kanban')
+
+class Logout(LogoutView):
+    template_name = 'logout.html'
 
 

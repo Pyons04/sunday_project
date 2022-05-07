@@ -1,4 +1,6 @@
 <p1>Kanban Bord</p1>
+<br>
+<p2>Hello, {{user.username}}! </p2>
 <ul>
   {% for item in object_list %}
   <li>{{ item.status }} (order: {{ item.order }})</li>
