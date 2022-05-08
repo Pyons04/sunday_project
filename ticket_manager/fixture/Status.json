@@ -1,0 +1,47 @@
+[
+    {
+        "model": "ticket_manager.Status",
+        "pk": 1,
+        "fields": {
+            "created_date": "2022-05-01",
+            "status": "未着手",
+            "order": "10"
+        }
+    },
+    {
+        "model": "ticket_manager.Status",
+        "pk": 2,
+        "fields": {
+            "created_date": "2022-05-01",
+            "status": "対応中",
+            "order": "20"
+        }
+    },
+    {
+        "model": "ticket_manager.Status",
+        "pk": 3,
+        "fields": {
+            "created_date": "2022-05-01",
+            "status": "レビュー中",
+            "order": "30"
+        }
+    },
+    {
+        "model": "ticket_manager.Status",
+        "pk": 4,
+        "fields": {
+            "created_date": "2022-05-01",
+            "status": "完了",
+            "order": "40"
+        }
+    },
+    {
+        "model": "ticket_manager.Status",
+        "pk": 5,
+        "fields": {
+            "created_date": "2022-05-01",
+            "status": "中止",
+            "order": "99"
+        }
+    }
+]
