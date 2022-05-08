@@ -7,35 +7,53 @@
 - model: ticket_manager.status
   pk: 1
   fields:
-    status: Backlog
+    status: Icebox
     order: 0.0
-    created_date: 2020-12-08 21:12:24.333404+00:00
+    created_date: 2022-05-01 00:00:00.000000+00:00
 - model: ticket_manager.status
   pk: 2
+  fields:
+    status: Backlog
+    order: 0.1
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 3
   fields:
     status: Analyze
     order: 1.0
     created_date: 2020-12-08 21:12:24.333404+00:00
 - model: ticket_manager.status
-  pk: 3
+  pk: 4
   fields:
     status: Develop
     order: 2.0
     created_date: 2020-12-08 21:12:24.333404+00:00
 - model: ticket_manager.status
-  pk: 4
+  pk: 5
+  fields:
+    status: WorkInProgress
+    order: 2.5
+    created_date: 2022-05-01 00:00:00.000000+00:00
+- model: ticket_manager.status
+  pk: 6
+  fields:
+    status: OnReview
+    order: 2.8
+    created_date: 2022-05-01 00:00:00.000000+00:00
+- model: ticket_manager.status
+  pk: 7
   fields:
     status: Test
     order: 3.0
     created_date: 2020-12-08 21:12:24.333404+00:00
 - model: ticket_manager.status
-  pk: 5
+  pk: 8
   fields:
     status: Staging
     order: 4.0
     created_date: 2020-12-08 21:12:24.333404+00:00
 - model: ticket_manager.status
-  pk: 6
+  pk: 9
   fields:
     status: Released
     order: 5.0
@@ -44,17 +62,17 @@
   pk: 1
   fields:
     created_date: 2020-12-08 21:12:24.333404+00:00
-    category: BugFix
+    category: ToDo
 - model: ticket_manager.category
   pk: 2
   fields:
     created_date: 2020-12-08 21:12:24.333404+00:00
-    category: Enhance
+    category: 課題
 - model: ticket_manager.category
   pk: 3
   fields:
     created_date: 2020-12-08 21:12:24.333404+00:00
-    category: Incident
+    category: 障害
 - model: ticket_manager.ticket
   pk: 1
   fields: 
@@ -82,8 +100,13 @@
     category: 2
     lastupdatedate: 2020-12-08 21:12:24.333404+00:00
     status: 4
-    
-
-
-
+- model : ticket_manager.ticket
+  pk: 4
+  fields:
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    title: 自動テスト作成
+    description: Django標準のテストを利用したテストを作成する。
+    category: 2
+    lastupdatedate: 2020-12-08 21:12:24.333404+00:00
+    status: 8
     
