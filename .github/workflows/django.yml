@@ -30,6 +30,9 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Measure Test Converage
+      run: |
+        coverage run manage.py test ticket_manager
     - name: Send Notification
       uses: rtCamp/action-slack-notify@v2.0.0
       env:
