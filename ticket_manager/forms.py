@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 class TicketCreateForm(forms.ModelForm):
   class Meta:
     model = Ticket
-    fields = ('title', 'description','status')
+    fields = ('title', 'category', 'description','status', 'deadlinedate')
 
   def __init__(self, *args, **kwargs):
     super().__init__( *args, **kwargs)
@@ -17,7 +17,7 @@ class TicketCreateForm(forms.ModelForm):
 class TicketUpdateForm(forms.ModelForm):
   class Meta:
     model = Ticket
-    fields = ('title', 'description','status', 'deadlinedate')
+    fields = ('title', 'category', 'description','status', 'deadlinedate')
 
   def __init__(self, *args, **kwargs):
     super().__init__( *args, **kwargs)
