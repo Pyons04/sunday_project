@@ -13,6 +13,7 @@ class TicketCreateForm(forms.ModelForm):
     super().__init__( *args, **kwargs)
     for field in self.fields.values():
       field.widget.attrs['class'] = 'form-control'
+      self.fields['deadlinedate'].required = False
 
 class TicketUpdateForm(forms.ModelForm):
   class Meta:
