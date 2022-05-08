@@ -4,9 +4,9 @@ from django.core.management import call_command
 from django.db import migrations
 
 
-def load_fixture(apps, schema_editor):
-    call_command('loaddata', 'ticket_manager/fixture/Status.json', app_label='ticket_manager')
-    call_command('loaddata', 'ticket_manager/fixture/Category.json', app_label='ticket_manager')
+# def load_fixture(apps, schema_editor):
+#     call_command('loaddata', 'ticket_manager/fixture/Status.json', app_label='ticket_manager')
+#     call_command('loaddata', 'ticket_manager/fixture/Category.json', app_label='ticket_manager')
 
 
 class Migration(migrations.Migration):
@@ -16,5 +16,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_fixture),
+        #migrations.RunPython(load_fixture),
     ]
