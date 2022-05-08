@@ -1,0 +1,89 @@
+- model: ticket_manager.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$320000$QqKHr5AS8EKuTNoIuLFbH5$rbtlZDAt2KU+uuv9tw+YfE4zNfurTKVxYelaYKiTQkg=
+    username: user
+    id: 1
+- model: ticket_manager.status
+  pk: 1
+  fields:
+    status: Backlog
+    order: 0.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 2
+  fields:
+    status: Analyze
+    order: 1.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 3
+  fields:
+    status: Develop
+    order: 2.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 4
+  fields:
+    status: Test
+    order: 3.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 5
+  fields:
+    status: Staging
+    order: 4.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.status
+  pk: 6
+  fields:
+    status: Released
+    order: 5.0
+    created_date: 2020-12-08 21:12:24.333404+00:00
+- model: ticket_manager.category
+  pk: 1
+  fields:
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    category: BugFix
+- model: ticket_manager.category
+  pk: 2
+  fields:
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    category: Enhance
+- model: ticket_manager.category
+  pk: 3
+  fields:
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    category: Incident
+- model: ticket_manager.ticket
+  pk: 1
+  fields: 
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    title: ステータスの作成機能制限
+    description: ステータスの作成は限定されたユーザのみ実行可能とする。
+    category: 1
+    lastupdatedate: 2020-12-08 21:12:24.333404+00:00
+    status: 2
+- model: ticket_manager.ticket
+  pk: 2
+  fields: 
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    title: チケット重複登録
+    description: チケットが登録画面から登録する際に重複して登録される
+    category: 3
+    lastupdatedate: 2020-12-08 21:12:24.333404+00:00
+    status: 2
+- model : ticket_manager.ticket
+  pk: 3
+  fields:
+    created_date: 2020-12-08 21:12:24.333404+00:00
+    title: ログアウト時の再遷移
+    description: チケットが登録画面から登録する際に重複して登録される
+    category: 2
+    lastupdatedate: 2020-12-08 21:12:24.333404+00:00
+    status: 4
+    
+
+
+
+    
