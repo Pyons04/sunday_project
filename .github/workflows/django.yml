@@ -31,12 +31,14 @@ jobs:
       run: |
         python manage.py test
     - name: Measure Test Converage
+      id: coverage
       run: |
-        coverage run manage.py test ticket_manager
+        coverage run manage.py test ticket_manager && coverage report
     - name: Send Notification
       uses: rtCamp/action-slack-notify@v2.0.0
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_COLOR: '#5cb85c'
         SLACK_TITLE: 'Passed CI on GitHub Actions :rocket:'
+        SLACK_MESSAGE: ${{join(steps.coverage.outputs.*, '\n')}}
         
