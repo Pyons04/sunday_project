@@ -1,11 +1,9 @@
 from datetime import datetime
-import imp
-from unicodedata import category
 from django.test import TestCase
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 
-from .models import Category, Status, User, Ticket
+from ..models import Category, Status, User, Ticket
 
 class LoadFixtures(TestCase):
   fixtures=['all.yaml']
