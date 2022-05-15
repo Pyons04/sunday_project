@@ -1,5 +1,3 @@
-from xmlrpc.client import ServerProxy
-from colorama import Style
 from rest_framework import serializers
 from .models import Ticket
 from django.contrib.auth import authenticate
@@ -19,8 +17,6 @@ class LoginSerializer(serializers.Serializer):
   def validate(self, data):
     username = data.get('username')
     password = data.get('password')
-    print('---: ' + username)
-    print('---: ' + password)
 
     if username and password:
       user = authenticate(
