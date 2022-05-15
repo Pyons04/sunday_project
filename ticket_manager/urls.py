@@ -12,5 +12,6 @@ urlpatterns = [
     path('kanban/', views.KanbanView.as_view(), name="kanban"),
     path('ticket/<int:pk>/', views.UpdateStatusTicketView.as_view(), name="ticket_update"),
     path('api/list/', views.TicketListCreateAPIView.as_view(), name="api_list"),
-    path('api/login/', views.LoginAPIView.as_view(), name="api_login")
+    path('api/login/', views.LoginAPIView.as_view(), name="api_login"),
+    path('api/logout/', views.LogoutAPIView.as_view(), name="api_logout")
 ]

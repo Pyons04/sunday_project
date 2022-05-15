@@ -114,4 +114,12 @@ class LoginAPIView(generics.GenericAPIView):
       'detailed' : 'ログインに成功しました'
     })
 
+class LogoutAPIView(views.APIView):
+  def post(self, request, *args, **kwargs):
+    logout(request)
+    return Response({
+      'detailed' : 'ログアウトに成功しました'
+    })
+
+
 
