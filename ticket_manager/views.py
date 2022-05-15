@@ -1,6 +1,8 @@
 from re import template
 from django.shortcuts import render
 from django.views import generic
+
+from ticket_manager.serializers import TicketSerializer
 from .models import Status, Ticket, Category
 from .forms  import StatusCreateForm, TicketCreateForm, LoginForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -9,6 +11,10 @@ from .forms  import StatusCreateForm, TicketCreateForm, TicketUpdateForm
 import logging
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+from rest_framework import status, views
+from rest_framework.response import Response
+
 
 class KanbanView(LoginRequiredMixin, generic.ListView):
   model = Status
@@ -85,3 +91,9 @@ class UpdateTicketView(generic.UpdateView):
   def form_invalid(self, form):
     messages.error(self.request, "更新失敗")
     return super().form_invalid(form)
+
+class TicketListCreateAPIView(views.APIView):
+  def get(self, request, *args, **kwargs):
+    ticket_list = Ticket.objects.all()
+    serialized = TicketSerializer(instance = ticket_list, many = True)
+    return Response(serialized.data, status.HTTP_200_OK)

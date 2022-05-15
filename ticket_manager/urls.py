@@ -10,5 +10,6 @@ urlpatterns = [
     path('update/<int:pk>/',views.UpdateTicketView.as_view(), name ="update"),
     path('status/', views.CreateStatusView.as_view(), name="create_status"),
     path('kanban/', views.KanbanView.as_view(), name="kanban"),
-    path('ticket/<int:pk>/', views.UpdateStatusTicketView.as_view(), name="ticket_update")
+    path('ticket/<int:pk>/', views.UpdateStatusTicketView.as_view(), name="ticket_update"),
+    path('api/list/', views.TicketListCreateAPIView.as_view(), name="api_list")
 ]
