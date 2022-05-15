@@ -1,5 +1,6 @@
 from re import template
 from django.shortcuts import render
+from django.template import context
 from django.views import generic
 from .models import Status, Ticket, Category
 from .forms  import StatusCreateForm, TicketCreateForm, LoginForm
@@ -9,6 +10,7 @@ from .forms  import StatusCreateForm, TicketCreateForm, TicketUpdateForm
 import logging
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Q
 
 class KanbanView(LoginRequiredMixin, generic.ListView):
   model = Status
@@ -34,6 +36,31 @@ class CreateStatusView(LoginRequiredMixin, generic.CreateView):
 class TicketView(LoginRequiredMixin, generic.ListView):
   model = Ticket
   template_name = 'list.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['status_list'] = Status.objects.all();
+    context['category_list'] = Category.objects.all();
+    return context
+  
+  def get_queryset(self):
+    q_word = self.request.GET.get('query')
+    q_category = self.request.GET.get('category')
+    q_status = self.request.GET.get('status')
+ 
+    if q_word:
+      object_list = Ticket.objects.filter(
+            Q(title__icontains=q_word) | Q(description__icontains=q_word))
+    else:
+      object_list = Ticket.objects.all()
+    
+    if q_category:
+      object_list = object_list.filter(Q(category=q_category))
+    
+    if q_status:
+      object_list = object_list.filter(Q(status=q_status))
+      
+    return object_list
 
 class CreateTicketView(LoginRequiredMixin, generic.CreateView):
   model = Ticket

@@ -1,4 +1,41 @@
 <p1>チケット一覧</p1>
+<div>検索条件
+  <form action="" method="get">
+    <ul>
+      テキスト：<input name="query" value="{{ request.GET.query }}" type="text">
+    </ul>
+    <ul>
+      カテゴリ：
+      <select name="category">
+        <option value=""> --- </option>
+        {% for category in category_list %}
+          {% if category.id == request.GET.category %}
+            <option selected value="{{ category.id }}"> {{ category }} </option>
+          {% else %}
+            <option value="{{ category.id }}"> {{ category }} </option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </ul>
+    <ul>
+      ステータス：
+      <select name="status">
+        <option value=""> --- </option>
+        {% for status in status_list %}
+          {% if request.GET.status == status.id %}
+            <option selected value="{{ status.id }}"> {{ status }} </option>
+          {% else %}
+            <option value="{{ status.id }}"> {{ status }} </option>
+          {% endif %}
+        {% endfor %}            
+      </select>
+    </ul>
+    <button type="submit">検索する</button>
+  </form>
+</div>
+<div>
+  チケット件数：{{object_list.count}}件
+</div>
 <ul>
   {% for item in object_list %}
   <li><a href="{% url 'detail' item.id %}">{{ item.title }}</a> Status: {{item.status}}</li>
