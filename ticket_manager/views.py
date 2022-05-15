@@ -1,8 +1,9 @@
 from re import template
 from django.shortcuts import render
 from django.views import generic
+from yaml import serialize
 
-from ticket_manager.serializers import TicketSerializer
+from ticket_manager.serializers import LoginSerializer, TicketSerializer
 from .models import Status, Ticket, Category
 from .forms  import StatusCreateForm, TicketCreateForm, LoginForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -11,9 +12,11 @@ from .forms  import StatusCreateForm, TicketCreateForm, TicketUpdateForm
 import logging
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth import login, logout
 
-from rest_framework import status, views
+from rest_framework import status, views, generics
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 
 class KanbanView(LoginRequiredMixin, generic.ListView):
@@ -92,8 +95,23 @@ class UpdateTicketView(generic.UpdateView):
     messages.error(self.request, "更新失敗")
     return super().form_invalid(form)
 
-class TicketListCreateAPIView(views.APIView):
+class TicketListCreateAPIView(LoginRequiredMixin, views.APIView):
   def get(self, request, *args, **kwargs):
     ticket_list = Ticket.objects.all()
     serialized = TicketSerializer(instance = ticket_list, many = True)
     return Response(serialized.data, status.HTTP_200_OK)
+
+class LoginAPIView(generics.GenericAPIView):
+  serializer_class = LoginSerializer
+  permission_classes = [AllowAny]
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception = True)
+    user = serializer.validated_data['user']
+    login(request, user)
+    return Response({
+      'detailed' : 'ログインに成功しました'
+    })
+
+
