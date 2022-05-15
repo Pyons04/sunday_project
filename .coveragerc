@@ -1,0 +1,13 @@
+[run]
+include =
+    */ticket_manager/*
+omit =
+    */migrations/*
+    */tests.py
+
+[report]
+include =
+    */ticket_manager/*
+omit =
+    */migrations/*
+    */tests.py
