@@ -14,7 +14,7 @@ class LoadFixtures(TestCase):
 
     self.client.login(username='user', password='user')
     response = self.client.get(reverse_lazy('list'))
-    #self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 200)
 
 class TestCreateStatusView(TestCase):
   @classmethod
