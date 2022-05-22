@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
 from .models import Ticket
 from django.contrib.auth import authenticate
 
@@ -26,7 +26,7 @@ class LoginSerializer(serializers.Serializer):
       )
 
       if user is None or not user.is_active:
-        raise serializers.ValidationError('[Error]Login Failed')
+        raise exceptions.AuthenticationFailed('Login Failed')
       data['user'] = user
 
       return data
