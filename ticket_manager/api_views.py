@@ -2,13 +2,14 @@ from ticket_manager.models import Ticket
 from ticket_manager.serializers import LoginSerializer, TicketSerializer
 
 from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework import status, views, generics
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
-class TicketListCreateAPIView(LoginRequiredMixin, views.APIView):
+class TicketListCreateAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+  
   def get(self, request, *args, **kwargs):
     ticket_list = Ticket.objects.all()
     serialized = TicketSerializer(instance = ticket_list, many = True)
