@@ -1,3 +1,4 @@
+from email.errors import NoBoundaryInMultipartDefect
 import json
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
@@ -25,18 +26,26 @@ class TestAuthFromAPI(APITestCase):
     response = self.client.post('/ticket/api/login/', params, format='json')
     self.assertEqual(response.status_code, 200)
 
-  # def test_get_ticket_list(self):
-  #   params = {
-  #     'username':'test_auth_api',
-  #     'password':'test_auth_api'
-  #   }
+  def test_get_ticket_list(self):
+    params = {
+      'username':'test_auth_api',
+      'password':'test_auth_api'
+    }
 
-  #   response  = self.client.post('/ticket/api/login/', params, format='json')
-  #   response2 = self.client.get('/ticket/api/list/'  , format='json')
-  #   self.assertEqual(response2.status_code, 200)
+    response  = self.client.post('/ticket/api/login/', params, format='json')
+
+    # csrf_tokenの取得を確認
+    self.assertTrue(response.cookies['csrftoken'])
+    response2 = self.client.get('/ticket/api/list/'  , format='json')
+    self.assertEqual(response2.status_code, 200)
 
   def test_get_ticket_list_fail(self):
     response = self.client.get('/ticket/api/list/'  ,format='json')
+
+    # 認証に失敗するためcsrf_tokenは取得できない
+    with self.assertRaises(KeyError):
+      response.cookies['csrftoken']
+    
     self.assertEqual(response.status_code, 403)
     self.assertEqual(
       json.loads(response.content.decode('utf-8'))['detail'],

@@ -99,4 +99,3 @@ class TestCreateTicketView(TestCase):
     response = self.client.post(reverse_lazy('create'), params)
     self.assertRedirects(response, reverse_lazy('list'))
     self.assertEqual(Ticket.objects.filter(deadlinedate=make_aware(datetime(1996,10,10))).count(), 1) 
-
