@@ -1,5 +1,6 @@
+from dataclasses import fields
 from rest_framework import serializers, exceptions
-from .models import Ticket
+from .models import Ticket, Category
 from django.contrib.auth import authenticate
 
 class TicketSerializer(serializers.ModelSerializer):
@@ -30,3 +31,8 @@ class LoginSerializer(serializers.Serializer):
       data['user'] = user
 
       return data
+
+class CategorySerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Category
+    fields = '__all__'

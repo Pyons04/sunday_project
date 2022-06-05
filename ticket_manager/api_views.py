@@ -1,5 +1,6 @@
+from yaml import serialize
 from ticket_manager.models import Ticket
-from ticket_manager.serializers import LoginSerializer, TicketSerializer
+from ticket_manager.serializers import CategorySerializer, LoginSerializer, TicketSerializer
 
 from django.contrib.auth import login, logout
 
@@ -14,6 +15,12 @@ class TicketListCreateAPIView(views.APIView):
     ticket_list = Ticket.objects.all()
     serialized = TicketSerializer(instance = ticket_list, many = True)
     return Response(serialized.data, status.HTTP_200_OK)
+
+class TicketCreateAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+
+  def post(self, request, *args, **kwargs):
+    pass
 
 class LoginAPIView(generics.GenericAPIView):
   serializer_class = LoginSerializer
@@ -34,3 +41,12 @@ class LogoutAPIView(views.APIView):
     return Response({
       'detailed' : 'ログアウトに成功しました'
     })
+
+class CategoryCreateAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+
+  def post(self, request, *args, **kwargs):
+    serialize = CategorySerializer(data=request.data)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
+    return Response(serialize.data, status.HTTP_201_CREATED)

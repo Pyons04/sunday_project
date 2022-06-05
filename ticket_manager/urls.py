@@ -16,5 +16,6 @@ urlpatterns = [
     # API Views
     path('api/login/', api_views.LoginAPIView.as_view(), name="api_login"),
     path('api/logout/', api_views.LogoutAPIView.as_view(), name="api_logout"),
-    path('api/list/', api_views.TicketListCreateAPIView.as_view(), name="api_list")
+    path('api/list/', api_views.TicketListCreateAPIView.as_view(), name="api_list"),
+    path('api/category/', api_views.CategoryCreateAPIView.as_view(), name='api_category')
 ]
