@@ -1,4 +1,6 @@
+from unicodedata import category
 from django.forms import ValidationError
+from django.shortcuts import get_object_or_404
 from yaml import serialize
 from ticket_manager.models import Ticket, Category
 from ticket_manager.serializers import CategorySerializer, LoginSerializer, TicketSerializer
@@ -53,4 +55,11 @@ class CategoryAPIView(views.APIView):
     if not filterset.is_valid():
       raise ValidationError(filterset.errors)
     serialize = CategorySerializer(instance=filterset.qs, many=True)
+    return Response(serialize.data, status.HTTP_200_OK)
+
+  def patch(self, request, pk, *args, **kwargs):
+    category = get_object_or_404(Category, pk=pk)
+    serialize = CategorySerializer(instance=category, data=request.data, partial=True)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
