@@ -1,11 +1,10 @@
 from datetime import datetime
-import imp
-from unicodedata import category
 from django.test import TestCase
 from django.urls import reverse_lazy
+from django.utils.timezone import make_aware
 from django.contrib.auth import get_user_model
 
-from .models import Category, Status, User, Ticket
+from ..models import Category, Status, User, Ticket
 
 class LoadFixtures(TestCase):
   fixtures=['all.yaml']
@@ -16,7 +15,7 @@ class LoadFixtures(TestCase):
 
     self.client.login(username='user', password='user')
     response = self.client.get(reverse_lazy('list'))
-    #self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 200)
 
 class TestCreateStatusView(TestCase):
   @classmethod
@@ -94,10 +93,9 @@ class TestCreateTicketView(TestCase):
       'status'   : self.status.id,
       'title'    : 'Test Ticket with Date',
       'description' : 'This is test ticket',
-      'deadlinedate': '1996-10-10'
+      'deadlinedate': '1996-10-10 00:00:00.000000+00:00'
     }
 
     response = self.client.post(reverse_lazy('create'), params)
     self.assertRedirects(response, reverse_lazy('list'))
-    self.assertEqual(Ticket.objects.filter(deadlinedate=datetime(1996,10,10)).count(), 1) 
-
+    self.assertEqual(Ticket.objects.filter(deadlinedate=make_aware(datetime(1996,10,10))).count(), 1) 
