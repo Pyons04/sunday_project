@@ -19,6 +19,6 @@ urlpatterns = [
     path('api/list/', api_views.TicketListAPIView.as_view(), name="api_list"),
     path('api/category/<pk>/', api_views.CategoryAPIView.as_view(), name='api_category'),
     path('api/category/', api_views.CategoryAPIView.as_view(), name='api_category'),
-    path('api/ticket/<pk>/', api_views.TicketAPIView.as_view(), name='api_ticket'),
-    path('api/ticket/', api_views.TicketAPIView.as_view(), name='api_ticket')
+    path('api/ticket/', api_views.TicketAPIView.as_view(), name='api_ticket'),
+    path('api/ticket/<pk>/', api_views.TicketAPIView.as_view(), name='api_ticket')
 ]

@@ -76,13 +76,20 @@ class TicketAPIView(views.APIView):
     serialize = TicketSerializer(instance=filterset.qs, many=True)
     return Response(serialize.data, status.HTTP_200_OK)
   
-  def get(self, request, pk,*args, **kwargs):
-    ticket = get_object_or_404(Ticket, pk=pk)
-    serialize = TicketSerializer(instance = ticket)
-    return Response(serialize.data, status.HTTP_200_OK)
+  # def get(self, request, pk, *args, **kwargs):
+  #   ticket = get_object_or_404(Ticket, pk=pk)
+  #   serialize = TicketSerializer(instance = ticket)
+  #   return Response(serialize.data, status.HTTP_200_OK)
 
   def post(self, request, *args, **kwargs):
     serialize = TicketSerializer(data=request.data)
     serialize.is_valid(raise_exception=True)
     serialize.save()
     return Response(serialize.data, status.HTTP_201_CREATED)
+
+  def patch(self, request, pk, *args, **kwargs):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    serialize = TicketSerializer(instance=ticket, data=request.data, partial=True)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
+    return Response(serialize.data, status.HTTP_200_OK)
