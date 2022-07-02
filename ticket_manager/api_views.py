@@ -10,7 +10,7 @@ from rest_framework import status, views, generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .filters import CategoryFilter, TicketFilter
+from .filters import CategoryFilter, StatusFilter, TicketFilter
 from django_filters import rest_framework as filters
 
 from django.db.models import ProtectedError
@@ -101,7 +101,7 @@ class TicketDetailAPIView(views.APIView):
   """
   permission_classes = [IsAuthenticated]
 
-  def get(self, request, pk, *args, **kwargs):
+  def get(self, request, *args, **kwargs):
     ticket = get_object_or_404(Ticket, pk=pk)
     serialize = TicketSerializer(instance = ticket)
     return Response(serialize.data, status.HTTP_200_OK)
@@ -116,9 +116,11 @@ class StatusAPIView(views.APIView):
   filter_backends = [filters.DjangoFilterBackend]
   filterset_fields = '__all__'
 
-  def get(self, request, pk, *args, **kwargs):
-    status_obj = get_object_or_404(Status, pk=pk)
-    serialize = StatusSerializer(instance = status_obj)
+  def get(self, request, *args, **kwargs):
+    filterset = StatusFilter(request.query_params, queryset=Status.objects.all())
+    if not filterset.is_valid():
+      raise ValidationError(filterset.errors)
+    serialize = StatusSerializer(instance=filterset.qs, many=True)
     return Response(serialize.data, status.HTTP_200_OK)
 
   def post(self, request, *args, **kwargs):
