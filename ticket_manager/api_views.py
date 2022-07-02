@@ -110,3 +110,10 @@ class StatusAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_201_CREATED)
 
+  def patch(self, request, pk, *args, **kwargs):
+    status_obj = get_object_or_404(Status, pk=pk)
+    serialize = StatusSerializer(instance=status_obj, data=request.data, partial=True)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
+    return Response(serialize.data, status.HTTP_200_OK)
+
