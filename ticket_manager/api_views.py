@@ -87,13 +87,6 @@ class TicketAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_201_CREATED)
 
-  def patch(self, request, pk, *args, **kwargs):
-    ticket = get_object_or_404(Ticket, pk=pk)
-    serialize = TicketSerializer(instance=ticket, data=request.data, partial=True)
-    serialize.is_valid(raise_exception=True)
-    serialize.save()
-    return Response(serialize.data, status.HTTP_200_OK)
-
 class TicketDetailAPIView(views.APIView):
   """
   pkを指定したgetを実装する為のクラス。
@@ -101,9 +94,16 @@ class TicketDetailAPIView(views.APIView):
   """
   permission_classes = [IsAuthenticated]
 
-  def get(self, request, *args, **kwargs):
+  def get(self, request, pk,*args, **kwargs):
     ticket = get_object_or_404(Ticket, pk=pk)
     serialize = TicketSerializer(instance = ticket)
+    return Response(serialize.data, status.HTTP_200_OK)
+
+  def patch(self, request, pk, *args, **kwargs):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    serialize = TicketSerializer(instance=ticket, data=request.data, partial=True)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
   def delete(self, request, pk, *args, **kwargs):
