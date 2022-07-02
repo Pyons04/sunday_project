@@ -1,7 +1,5 @@
-from unicodedata import category
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
-from yaml import serialize
 from ticket_manager.models import Ticket, Category
 from ticket_manager.serializers import CategorySerializer, LoginSerializer, TicketSerializer
 
@@ -11,7 +9,7 @@ from rest_framework import status, views, generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .filters import CategoryFilter
+from .filters import CategoryFilter, TicketFilter
 
 class TicketListAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
@@ -63,3 +61,17 @@ class CategoryAPIView(views.APIView):
     serialize.is_valid(raise_exception=True)
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
+
+class TicketAPIView(views.APIView):
+  def get(self, request, *args, **kwargs):
+    filterset = TicketFilter(request.query_params, queryset=Ticket.objects.all())
+    if not filterset.is_valid():
+      raise ValidationError(filterset.errors)
+    serialize = TicketSerializer(instance=filterset.qs, many=True)
+    return Response(serialize.data, status.HTTP_200_OK)
+
+  def post(self, request, *args, **kwargs):
+    serialize = TicketSerializer(data=request.data)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
+    return Response(serialize.data, status.HTTP_201_CREATED)
