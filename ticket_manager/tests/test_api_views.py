@@ -59,17 +59,18 @@ class TestAuthFromAPI(APITestCase):
       'password':'test_auth_api'
     }
 
-    response  = self.client.post('/ticket/api/login/', params, format='json')
-    response2 = self.client.get('/ticket/api/list/'  , format='json')
-    self.assertEqual(response2.status_code, 200)
+    response = self.client.post('/ticket/api/login/', params, format='json')
+    response = self.client.get('/ticket/api/ticket/',params  , format='json')
+    self.assertEqual(response.status_code, 200)
 
   def test_get_ticket_list_fail(self):
     """
     認証を経由せず、チケット一覧を要求して失敗
     """
-    response = self.client.get('/ticket/api/list/'  ,format='json')
+    response = self.client.get('/ticket/api/ticket/'  ,format='json')
     
     self.assertEqual(response.status_code, 403)
+
     self.assertEqual(
       json.loads(response.content.decode('utf-8'))['detail'],
       'Authentication credentials were not provided.'
