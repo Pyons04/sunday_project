@@ -64,6 +64,16 @@ class CategoryAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
+class TicketDetailAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+  filter_backends = [filters.DjangoFilterBackend]
+  filterset_fields = '__all__'
+
+  def get(self, request, pk, *args, **kwargs):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    serialize = TicketSerializer(instance = ticket)
+    return Response(serialize.data, status.HTTP_200_OK)
+
 class TicketAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
   filter_backends = [filters.DjangoFilterBackend]
@@ -75,11 +85,6 @@ class TicketAPIView(views.APIView):
       raise ValidationError(filterset.errors)
     serialize = TicketSerializer(instance=filterset.qs, many=True)
     return Response(serialize.data, status.HTTP_200_OK)
-  
-  # def get(self, request, pk, *args, **kwargs):
-  #   ticket = get_object_or_404(Ticket, pk=pk)
-  #   serialize = TicketSerializer(instance = ticket)
-  #   return Response(serialize.data, status.HTTP_200_OK)
 
   def post(self, request, *args, **kwargs):
     serialize = TicketSerializer(data=request.data)
