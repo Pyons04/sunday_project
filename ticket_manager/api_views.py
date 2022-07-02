@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .filters import CategoryFilter, TicketFilter
+from django_filters import rest_framework as filters
 
 class TicketListAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
@@ -63,6 +64,10 @@ class CategoryAPIView(views.APIView):
     return Response(serialize.data, status.HTTP_200_OK)
 
 class TicketAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+  filter_backends = [filters.DjangoFilterBackend]
+  filterset_fields = '__all__'
+
   def get(self, request, *args, **kwargs):
     filterset = TicketFilter(request.query_params, queryset=Ticket.objects.all())
     if not filterset.is_valid():
