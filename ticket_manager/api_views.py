@@ -13,13 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .filters import CategoryFilter, TicketFilter
 from django_filters import rest_framework as filters
 
-class TicketListAPIView(views.APIView):
-  permission_classes = [IsAuthenticated]
-  
-  def get(self, request, *args, **kwargs):
-    ticket_list = Ticket.objects.all()
-    serialized = TicketSerializer(instance = ticket_list, many = True)
-    return Response(serialized.data, status.HTTP_200_OK)
+from django.db.models import ProtectedError
 
 class LoginAPIView(generics.GenericAPIView):
   serializer_class = LoginSerializer
@@ -64,16 +58,6 @@ class CategoryAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
-class TicketDetailAPIView(views.APIView):
-  permission_classes = [IsAuthenticated]
-  filter_backends = [filters.DjangoFilterBackend]
-  filterset_fields = '__all__'
-
-  def get(self, request, pk, *args, **kwargs):
-    ticket = get_object_or_404(Ticket, pk=pk)
-    serialize = TicketSerializer(instance = ticket)
-    return Response(serialize.data, status.HTTP_200_OK)
-
 class TicketAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
   filter_backends = [filters.DjangoFilterBackend]
@@ -99,6 +83,18 @@ class TicketAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
+class TicketDetailAPIView(views.APIView):
+  """
+  pkを指定したgetを実装する為のクラス。
+  TicketAPIViewにはクエリ文字列を利用したgetを実装した。
+  """
+  permission_classes = [IsAuthenticated]
+
+  def get(self, request, pk, *args, **kwargs):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    serialize = TicketSerializer(instance = ticket)
+    return Response(serialize.data, status.HTTP_200_OK)
+
 class StatusAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
   filter_backends = [filters.DjangoFilterBackend]
@@ -122,3 +118,13 @@ class StatusAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
+  def delete(self, request, pk, *args, **kwargs):
+    status_obj = get_object_or_404(Status, pk=pk)
+    try:
+      status_obj.delete()
+      return Response(status = status.HTTP_204_NO_CONTENT)
+    except ProtectedError as exception:
+      return Response(
+        data = {'message': 'リソースの削除に失敗しました。'},
+        status = status.HTTP_405_METHOD_NOT_ALLOWED
+      )
