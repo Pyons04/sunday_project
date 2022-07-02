@@ -58,6 +58,17 @@ class CategoryAPIView(views.APIView):
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
 
+  def delete(self, request, pk, *args, **kwargs):
+    category = get_object_or_404(Category, pk=pk)
+    try:
+      category.delete()
+      return Response(status = status.HTTP_204_NO_CONTENT)
+    except ProtectedError as exception:
+      return Response(
+        data = {'message': 'リソースの削除に失敗しました。'},
+        status = status.HTTP_405_METHOD_NOT_ALLOWED
+      )
+
 class TicketAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
   filter_backends = [filters.DjangoFilterBackend]
@@ -94,6 +105,11 @@ class TicketDetailAPIView(views.APIView):
     ticket = get_object_or_404(Ticket, pk=pk)
     serialize = TicketSerializer(instance = ticket)
     return Response(serialize.data, status.HTTP_200_OK)
+
+  def delete(self, request, pk, *args, **kwargs):
+    ticket_obj = get_object_or_404(Ticket, pk=pk)
+    ticket_obj.delete()
+    return Response(status = status.HTTP_204_NO_CONTENT)
 
 class StatusAPIView(views.APIView):
   permission_classes = [IsAuthenticated]
