@@ -1,8 +1,8 @@
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from yaml import serialize
-from ticket_manager.models import Ticket, Category
-from ticket_manager.serializers import CategorySerializer, LoginSerializer, TicketSerializer
+from ticket_manager.models import Ticket, Category, Status
+from ticket_manager.serializers import CategorySerializer, LoginSerializer, StatusSerializer, TicketSerializer
 
 from django.contrib.auth import login, logout
 
@@ -93,3 +93,20 @@ class TicketAPIView(views.APIView):
     serialize.is_valid(raise_exception=True)
     serialize.save()
     return Response(serialize.data, status.HTTP_200_OK)
+
+class StatusAPIView(views.APIView):
+  permission_classes = [IsAuthenticated]
+  filter_backends = [filters.DjangoFilterBackend]
+  filterset_fields = '__all__'
+
+  def get(self, request, pk, *args, **kwargs):
+    status_obj = get_object_or_404(Status, pk=pk)
+    serialize = StatusSerializer(instance = status_obj)
+    return Response(serialize.data, status.HTTP_200_OK)
+
+  def post(self, request, *args, **kwargs):
+    serialize = StatusSerializer(data=request.data)
+    serialize.is_valid(raise_exception=True)
+    serialize.save()
+    return Response(serialize.data, status.HTTP_201_CREATED)
+

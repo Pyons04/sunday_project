@@ -20,5 +20,7 @@ urlpatterns = [
     path('api/category/<pk>/', api_views.CategoryAPIView.as_view(), name='api_category'),
     path('api/category/', api_views.CategoryAPIView.as_view(), name='api_category'),
     path('api/ticket/', api_views.TicketAPIView.as_view(), name='api_ticket'),
-    path('api/ticket/<pk>/', api_views.TicketAPIView.as_view(), name='api_ticket')
+    path('api/ticket/<pk>/', api_views.TicketAPIView.as_view(), name='api_ticket'),
+    path('api/status/', api_views.StatusAPIView.as_view(), name="api_status"),
+    path('api/status/<pk>/', api_views.StatusAPIView.as_view(), name="api_status")
 ]
