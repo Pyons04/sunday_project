@@ -1,5 +1,6 @@
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
+from yaml import serialize
 from ticket_manager.models import Ticket, Category
 from ticket_manager.serializers import CategorySerializer, LoginSerializer, TicketSerializer
 
@@ -73,6 +74,11 @@ class TicketAPIView(views.APIView):
     if not filterset.is_valid():
       raise ValidationError(filterset.errors)
     serialize = TicketSerializer(instance=filterset.qs, many=True)
+    return Response(serialize.data, status.HTTP_200_OK)
+  
+  def get(self, request, pk,*args, **kwargs):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    serialize = TicketSerializer(instance = ticket)
     return Response(serialize.data, status.HTTP_200_OK)
 
   def post(self, request, *args, **kwargs):
