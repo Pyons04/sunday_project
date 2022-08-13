@@ -128,3 +128,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL    = 'ticket_manager.User'
 LOGIN_REDIRECT_URL = '/ticket/kanban'
 LOGIN_URL          = '/ticket/login/'
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
