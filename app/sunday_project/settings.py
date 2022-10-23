@@ -129,4 +129,4 @@ AUTH_USER_MODEL    = 'ticket_manager.User'
 LOGIN_REDIRECT_URL = '/ticket/kanban'
 LOGIN_URL          = '/ticket/login/'
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8080','http://127.0.0.1:8080']
