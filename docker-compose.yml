@@ -7,8 +7,21 @@ services:
       POSTGRES_PASSWORD: postgres
   app:
     build: ./app
-    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py loaddata all.yaml && python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py loaddata all.yaml && gunicorn sunday_project.wsgi --bind 0.0.0.0:8000"
     ports: 
       - 8000:8000
     depends_on:
       - db
+  web:
+    build:
+      ./nginx
+    # ボリュームを指定
+    # ローカルの/staticをコンテナの/staticにマウントする
+    volumes:
+      - ./static:/static
+    # ローカルの80番ボートをコンテナの80番ポートとつなぐ
+    ports:
+      - "80:80"
+    # 先にappを起動してからwebを起動する
+    depends_on:
+      - app

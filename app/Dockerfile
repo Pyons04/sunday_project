@@ -11,3 +11,4 @@ ADD requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 ADD . ./
+RUN mkdir -p /var/run/gunicorn
